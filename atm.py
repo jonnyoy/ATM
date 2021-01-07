@@ -42,7 +42,6 @@ class StartPage(tk.Frame):
 
         self.controller.title('Securitex')
         self.controller.state('zoomed')
-        #self.controller.iconphoto(False,tk.PhotoImage(file='C:/Users/urban boutique/Documents/atm tutorial/atm.png'))
 
         heading_label = tk.Label(self,
                                                      text='SECURITEX ATM',
@@ -264,9 +263,22 @@ class WithdrawPage(tk.Frame):
 
         def withdraw(amount):
             global current_balance
-            current_balance -= amount
-            controller.shared_data['Balance'].set(current_balance)
-            controller.show_frame('MenuPage')
+            if current_balance >= int(amount):
+                current_balance -= amount
+                incorrect_password_label['text'] = ''
+                controller.shared_data['Balance'].set(current_balance)
+                controller.show_frame('MenuPage')
+            else:
+                incorrect_password_label['text']='Incorrect Password'
+
+        incorrect_password_label = tk.Label(self,
+                                            text='',
+                                            font=('orbitron', 13),
+                                            fg='white',
+                                            bg='#33334d',
+                                            anchor='n')
+        incorrect_password_label.pack(fill='both', expand=True)
+
             
         twenty_button = tk.Button(button_frame,
                                                        text='20',
@@ -338,6 +350,33 @@ class WithdrawPage(tk.Frame):
                                                               justify='right')
         other_amount_entry.grid(row=3,column=1,pady=5,ipady=30)
 
+        def menu():
+            controller.show_frame('MenuPage')
+
+        menu_button = tk.Button(button_frame,
+                                command=menu,
+                                text='Menu',
+                                relief='raised',
+                                borderwidth=3,
+                                width=50,
+                                height=5)
+        menu_button.grid(row=4, column=0, pady=5)
+
+        def exit():
+            controller.show_frame('StartPage')
+
+        exit_button = tk.Button(button_frame,
+                                text='Exit',
+                                command=exit,
+                                relief='raised',
+                                borderwidth=3,
+                                width=50,
+                                height=5)
+        exit_button.grid(row=4, column=1, pady=5)
+
+        bottom_frame = tk.Frame(self, relief='raised', borderwidth=3)
+        bottom_frame.pack(fill='x', side='bottom')
+
         def other_amount(_):
             global current_balance
             current_balance -= int(cash.get())
@@ -391,6 +430,8 @@ class DepositPage(tk.Frame):
 
         space_label = tk.Label(self,height=4,bg='#3d3d5c')
         space_label.pack()
+        button_frame = tk.Frame(self, bg='#33334d')
+        button_frame.pack(fill='both', expand=True)
 
         enter_amount_label = tk.Label(self,
                                                       text='Enter amount',
@@ -421,6 +462,33 @@ class DepositPage(tk.Frame):
                                                      width=40,
                                                      height=3)
         enter_button.pack(pady=10)
+
+        button_frame = tk.Frame(self, bg='#33334d')
+        button_frame.pack(fill='both', expand=True)
+
+        def menu():
+            controller.show_frame('MenuPage')
+
+        menu_button = tk.Button(button_frame,
+                                command=menu,
+                                text='Menu',
+                                relief='raised',
+                                borderwidth=3,
+                                width=50,
+                                height=5)
+        menu_button.grid(row=0, column=0, pady=5)
+
+        def exit():
+            controller.show_frame('StartPage')
+
+        exit_button = tk.Button(button_frame,
+                                text='Exit',
+                                command=exit,
+                                relief='raised',
+                                borderwidth=3,
+                                width=50,
+                                height=5)
+        exit_button.grid(row=0, column=1, pady=5)
 
         two_tone_label = tk.Label(self,bg='#33334d')
         two_tone_label.pack(fill='both',expand=True)
